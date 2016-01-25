@@ -1,11 +1,11 @@
+import Spammer from 'spammer';
 import harvester from 'harvester';
 import builder from 'builder';
 import guard from 'guard';
-import spammer from 'spammer';
 
 module.exports.loop = function () {
 
-  spammer();
+  let spammer = new Spammer('placeholder');
 
 	for(var name in Game.creeps) {
 		var creep = Game.creeps[name];
