@@ -7,18 +7,21 @@ function countCreeps() {
 }
 
 function createHarvester() {
-
+  console.log("CREATE HARVESTER!");
 }
 
 function createBuilder() {
-
+  console.log("CREATE BUILDER!");
 }
 
 const developmentState = [createHarvester, createHarvester, createBuilder];
 
 class Spammer {
   constructor(state) {
-    console.log(countCreeps());
+    // Right now we are just assuming we are always in development state
+    let nCreeps = countCreeps();
+    let createFunction = developmentState[nCreeps % developmentState.length];
+    createFunction();
   }
 }
 
