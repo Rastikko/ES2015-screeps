@@ -15,7 +15,9 @@ module.exports.loop = function () {
 		}
 
 		if(creep.memory.role == 'builder') {
-		  builder(creep);
+      if (spammer.isFinished) {
+        builder(creep);
+      }
 		}
 		if(creep.memory.role == 'guard') {
     	guard(creep);

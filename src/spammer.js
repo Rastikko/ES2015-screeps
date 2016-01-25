@@ -32,14 +32,32 @@ function createBuilder() {
   return true;
 }
 
-const developmentState = [createHarvester, createHarvester, createBuilder];
+function createChoosenOne() {
+  if (!isEnergyOver(300)) {
+    return false;
+  }
+  let attributes = [WORK, MOVE, CARRY, CARRY, CARRY, CARRY];
+  let name = 'thechoosenone' + countCreeps();
+  let properties =  { role: 'thechoosenone' };
+  Game.spawns.Spawn1.createCreep(attributes, name, properties);
+  return true;
+}
+
+const developmentState = [createHarvester, createHarvester, createBuilder, createBuilder, createChoosenOne];
 
 class Spammer {
   constructor(state) {
     // Right now we are just assuming we are always in development state
     let nCreeps = countCreeps();
+    if (nCreeps < developmentState.length) {
+      this.isFinished = false;
+    } else {
+      this.isFinished = true;
+    }
     let createFunction = developmentState[nCreeps % developmentState.length];
-    createFunction();
+    if (!this.finished) {
+      createFunction();
+    }
   }
 }
 
