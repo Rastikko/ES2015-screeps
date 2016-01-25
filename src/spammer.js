@@ -36,7 +36,7 @@ function createChoosenOne() {
   if (!isEnergyOver(299)) {
     return false;
   }
-  let attributes = [WORK, MOVE, CARRY, CARRY, CARRY, CARRY];
+  let attributes = [WORK, MOVE, CARRY, CARRY, CARRY];
   let properties =  { role: 'thechoosenone' };
   Game.spawns.Spawn1.createCreep(attributes, 'thechoosenone', properties);
   return true;
