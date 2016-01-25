@@ -16,10 +16,10 @@ function createBuilder() {
 
 const developmentState = [createHarvester, createHarvester, createBuilder];
 
-class spammer {
+class Spammer {
   constructor(state) {
     console.log(countCreeps());
   }
 }
 
-export default spammer;
+export default Spammer;
