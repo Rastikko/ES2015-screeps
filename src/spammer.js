@@ -6,12 +6,30 @@ function countCreeps() {
   return n;
 }
 
+function isEnergyOver(energy) {
+  return Game.spawns.Spawn1.energy > energy;
+}
+
 function createHarvester() {
-  console.log("CREATE HARVESTER!");
+  if (!isEnergyOver(150)) {
+    return false;
+  }
+  let attributes = [WORK, MOVE, CARRY];
+  let name = 'harvester' + countCreeps();
+  let properties =  { role: 'harvester' };
+  Game.spawns.Spawn1.createCreep(attributes, name, properties);
+  return true;
 }
 
 function createBuilder() {
-  console.log("CREATE BUILDER!");
+  if (!isEnergyOver(150)) {
+    return false;
+  }
+  let attributes = [WORK, MOVE, CARRY];
+  let name = 'builder' + countCreeps();
+  let properties =  { role: 'builder' };
+  Game.spawns.Spawn1.createCreep(attributes, name, properties);
+  return true;
 }
 
 const developmentState = [createHarvester, createHarvester, createBuilder];
