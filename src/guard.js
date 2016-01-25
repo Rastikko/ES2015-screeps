@@ -1,5 +1,5 @@
-module.exports = function(creep) {
-    var targets = creep.room.find(FIND_HOSTILE_CREEPS);
+function guard(creep) {
+    let targets = creep.room.find(FIND_HOSTILE_CREEPS);
 
     if(targets.length) {
     	if(creep.attack(targets[0]) == ERR_NOT_IN_RANGE) {
@@ -7,3 +7,5 @@ module.exports = function(creep) {
     	}
     }
 }
+
+export default guard;
