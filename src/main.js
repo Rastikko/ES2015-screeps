@@ -1,11 +1,11 @@
-var harvester = require('harvester');
-var builder  = require('builder');
-var guard = require('guard');
-var spawmmer = require('spawmmer');
+import harvester from 'harvester';
+import builder from 'builder';
+import guard from 'guard';
+import spammer from 'spammer';
 
 module.exports.loop = function () {
 
-    spawmmer();
+  spammer();
 
 	for(var name in Game.creeps) {
 		var creep = Game.creeps[name];
@@ -15,10 +15,10 @@ module.exports.loop = function () {
 		}
 
 		if(creep.memory.role == 'builder') {
-		    builder(creep);
+		  builder(creep);
 		}
 		if(creep.memory.role == 'guard') {
-        	guard(creep);
-        }
+    	guard(creep);
+    }
 	}
 }
