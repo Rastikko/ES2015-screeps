@@ -1,7 +1,9 @@
-function countCreeps() {
+function countCreeps(role) {
   let n = 0;
-  Object.keys(Game.creeps).forEach(() => {
-    n++;
+  Object.keys(Game.creeps).forEach((creepKey) => {
+    if (Game.creeps[creepKey].memory.role === role) {
+      n++;
+    }
   });
   return n;
 }
@@ -11,52 +13,61 @@ function isEnergyOver(energy) {
 }
 
 function createHarvester() {
-  if (!isEnergyOver(150)) {
+  if (!isEnergyOver(149)) {
     return false;
   }
   let attributes = [WORK, MOVE, CARRY];
-  let name = 'harvester' + countCreeps();
   let properties =  { role: 'harvester' };
-  Game.spawns.Spawn1.createCreep(attributes, name, properties);
+  Game.spawns.Spawn1.createCreep(attributes, null, properties);
   return true;
 }
 
 function createBuilder() {
-  if (!isEnergyOver(150)) {
+  if (!isEnergyOver(149)) {
     return false;
   }
   let attributes = [WORK, MOVE, CARRY];
-  let name = 'builder' + countCreeps();
   let properties =  { role: 'builder' };
-  Game.spawns.Spawn1.createCreep(attributes, name, properties);
+  Game.spawns.Spawn1.createCreep(attributes, null, properties);
   return true;
 }
 
 function createChoosenOne() {
-  if (!isEnergyOver(300)) {
+  if (!isEnergyOver(299)) {
     return false;
   }
   let attributes = [WORK, MOVE, CARRY, CARRY, CARRY, CARRY];
-  let name = 'thechoosenone' + countCreeps();
   let properties =  { role: 'thechoosenone' };
-  Game.spawns.Spawn1.createCreep(attributes, name, properties);
+  Game.spawns.Spawn1.createCreep(attributes, 'thechoosenone', properties);
   return true;
 }
 
-const developmentState = [createHarvester, createHarvester, createBuilder, createBuilder, createChoosenOne];
+const developmentState = {
+  harvester: [2, createHarvester],
+  builder: [2, createBuilder],
+  thechoosenone: [1, createChoosenOne]
+};
 
 class Spammer {
   constructor(state) {
-    // Right now we are just assuming we are always in development state
-    let nCreeps = countCreeps();
-    if (nCreeps < developmentState.length) {
-      this.isFinished = false;
-    } else {
+    // right now we are just assuming we are always in development state
+
+    let totalCreeps = 0;
+    Object.keys(developmentState).forEach((key) => {
+      // if we already defined that we are not finished it means that we
+      // attempted to create a creep before
+      if (this.isFinished === false) {
+        return;
+      }
+      let nKeyCreeps = countCreeps(key);
+      if (nKeyCreeps < developmentState[key][0]) {
+        developmentState[key][1]();
+        this.isFinished = false;
+      }
+    });
+
+    if (this.isFinished === undefined) {
       this.isFinished = true;
-    }
-    let createFunction = developmentState[nCreeps % developmentState.length];
-    if (!this.finished) {
-      createFunction();
     }
   }
 }
