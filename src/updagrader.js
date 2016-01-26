@@ -1,5 +1,5 @@
-function thechoosenone(creep) {
-	if (creep.carry.energy < creep.carryCapacity) {
+function upgrader(creep) {
+	if (creep.carry.energy === 0) {
 		let sources = creep.room.find(FIND_SOURCES);
 		if (creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
 			creep.moveTo(sources[0]);
@@ -11,4 +11,4 @@ function thechoosenone(creep) {
 	}
 }
 
-export default thechoosenone;
+export default upgrader;

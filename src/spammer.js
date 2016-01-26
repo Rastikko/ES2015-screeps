@@ -1,3 +1,5 @@
+// TODO: decouple all Game references into a gameInstance object
+
 function countCreeps(role) {
   let n = 0;
   Object.keys(Game.creeps).forEach((creepKey) => {
@@ -32,20 +34,31 @@ function createBuilder() {
   return true;
 }
 
-function createChoosenOne() {
+function createUpgrader() {
   if (!isEnergyOver(299)) {
     return false;
   }
   let attributes = [WORK, MOVE, CARRY, CARRY, CARRY];
-  let properties =  { role: 'thechoosenone' };
-  Game.spawns.Spawn1.createCreep(attributes, 'thechoosenone', properties);
+  let properties =  { role: 'upgrader' };
+  Game.spawns.Spawn1.createCreep(attributes, null, properties);
+  return true;
+}
+
+function createGuard() {
+  if (!isEnergyOver(149)) {
+    return false;
+  }
+  let attributes = [ATTACK, TOUGH, MOVE];
+  let properties =  { role: 'guard' };
+  Game.spawns.Spawn1.createCreep(attributes, null, properties);
   return true;
 }
 
 const developmentState = {
-  harvester: [2, createHarvester],
-  builder: [2, createBuilder],
-  thechoosenone: [1, createChoosenOne]
+  harvester: [3, createHarvester],
+  builder: [1, createBuilder],
+  upgrader: [2, createUpgrader],
+  guard: [2, createGuard]
 };
 
 class Spammer {

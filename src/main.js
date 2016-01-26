@@ -2,7 +2,7 @@ import Spammer from 'spammer';
 import harvester from 'harvester';
 import builder from 'builder';
 import guard from 'guard';
-import thechoosenone from 'thechoosenone';
+import upgrader from 'upgrader';
 
 module.exports.loop = function () {
 
@@ -15,8 +15,8 @@ module.exports.loop = function () {
 			harvester(creep);
 		}
 
-    if (creep.memory.role === 'thechoosenone') {
-      thechoosenone(creep);
+    if (creep.memory.role === 'upgrader') {
+      upgrader(creep);
     }
 
 		if(creep.memory.role == 'builder') {
