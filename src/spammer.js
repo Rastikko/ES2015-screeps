@@ -54,9 +54,10 @@ function createGuard() {
   return true;
 }
 
+// Number of creeeps, createFunction, isFinished
 const developmentState = {
   harvester: [3, createHarvester],
-  builder: [1, createBuilder],
+  builder: [4, createBuilder],
   upgrader: [2, createUpgrader],
   guard: [2, createGuard]
 };
@@ -81,6 +82,10 @@ class Spammer {
 
     if (this.isFinished === undefined) {
       this.isFinished = true;
+      // If we have extra energy to spare then create some more guards
+      if (isEnergyOver(280) && countCreeps('guard') < 10) {
+        createGuard();
+      }
     }
   }
 }
