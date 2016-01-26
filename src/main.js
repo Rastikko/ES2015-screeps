@@ -1,3 +1,4 @@
+import RoomGame from 'room-game';
 import Spammer from 'spammer';
 import harvester from 'harvester';
 import builder from 'builder';
@@ -6,7 +7,8 @@ import upgrader from 'upgrader';
 
 module.exports.loop = function () {
 
-  let spammer = new Spammer('placeholder');
+  let roomGame = new RoomGame('Spawn1');
+  let spammer = new Spammer(roomGame, 'placeholder');
 
 	for(var name in Game.creeps) {
 		var creep = Game.creeps[name];
@@ -20,9 +22,7 @@ module.exports.loop = function () {
     }
 
 		if(creep.memory.role == 'builder') {
-      if (spammer.isFinished) {
-        builder(creep);
-      }
+      builder(creep, spammer.isFinished);
 		}
 
 		if(creep.memory.role == 'guard') {

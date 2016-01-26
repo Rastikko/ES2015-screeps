@@ -1,5 +1,5 @@
-function builder(creep) {
-    if (creep.carry.energy == 0) {
+function builder(creep, energyAvailable) {
+    if (creep.carry.energy === 0 && energyAvailable) {
     	if (Game.spawns.Spawn1.transferEnergy(creep) == ERR_NOT_IN_RANGE) {
     		creep.moveTo(Game.spawns.Spawn1);
     	}
@@ -10,6 +10,21 @@ function builder(creep) {
     			creep.moveTo(targets[0]);
     		}
     	}
+
+      // If there are no construction the repair walls
+      if (!targets.length) {
+        let wall = creep.pos.findClosestByPath(FIND_MY_STRUCTURES, {
+            filter: function(object) {
+                return object.hits < 5000;
+            }
+        });
+        if(wall) {
+            if(creep.repair(wall) == ERR_NOT_IN_RANGE) {
+                creep.moveTo(wall);
+            }
+        }
+      }
+
     }
 }
 

@@ -1,15 +1,3 @@
-// TODO: decouple all Game references into a gameInstance object
-
-function countCreeps(role) {
-  let n = 0;
-  Object.keys(Game.creeps).forEach((creepKey) => {
-    if (Game.creeps[creepKey].memory.role === role) {
-      n++;
-    }
-  });
-  return n;
-}
-
 function isEnergyOver(energy) {
   return Game.spawns.Spawn1.energy > energy;
 }
@@ -57,36 +45,40 @@ function createGuard() {
 // Number of creeeps, createFunction, isFinished
 const developmentState = {
   harvester: [3, createHarvester],
-  builder: [4, createBuilder],
+  builder: [8, createBuilder],
   upgrader: [2, createUpgrader],
   guard: [2, createGuard]
 };
 
 class Spammer {
-  constructor(state) {
-    // right now we are just assuming we are always in development state
+  constructor(roomGame, state) {
+    this.roomGame = roomGame;
 
-    let totalCreeps = 0;
+    this.calculateState(state);
+
+    if (this.isFinished === undefined) {
+      this.isFinished = true;
+      // If we have extra energy to spare then create some more guards
+      if (isEnergyOver(280) && this.roomGame.countCreeps('guard') < 8) {
+        createGuard();
+      }
+    }
+  }
+
+  calculateState(state) {
+    // right now we are just assuming we are always in development state
     Object.keys(developmentState).forEach((key) => {
       // if we already defined that we are not finished it means that we
       // attempted to create a creep before
       if (this.isFinished === false) {
         return;
       }
-      let nKeyCreeps = countCreeps(key);
+      let nKeyCreeps = this.roomGame.countCreeps(key);
       if (nKeyCreeps < developmentState[key][0]) {
         developmentState[key][1]();
         this.isFinished = false;
       }
     });
-
-    if (this.isFinished === undefined) {
-      this.isFinished = true;
-      // If we have extra energy to spare then create some more guards
-      if (isEnergyOver(280) && countCreeps('guard') < 10) {
-        createGuard();
-      }
-    }
   }
 }
 
