@@ -31,4 +31,6 @@ module.exports.loop = function () {
     	guard(creep);
     }
 	}
+
+  // TODO: if nobody have reserved the energy then spam guards
 }

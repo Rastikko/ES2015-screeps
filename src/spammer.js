@@ -1,7 +1,7 @@
 const developmentState = {
-  harvester: [3, [WORK, WORK, MOVE, CARRY]],
-  builder: [4, [WORK, MOVE, MOVE, CARRY, CARRY]],
-  upgrader: [4, [WORK, MOVE, MOVE, MOVE, CARRY]],
+  harvester: [4, [WORK, WORK, MOVE, CARRY]],
+  builder: [3, [WORK, MOVE, MOVE, CARRY, CARRY]],
+  upgrader: [6, [WORK, MOVE, MOVE, MOVE, CARRY]],
   guard: [2, [ATTACK, ATTACK, TOUGH, MOVE, MOVE]]
 };
 
