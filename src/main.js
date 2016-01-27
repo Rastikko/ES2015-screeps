@@ -10,19 +10,21 @@ module.exports.loop = function () {
   let roomGame = new RoomGame('Spawn1');
   let spammer = new Spammer(roomGame, 'placeholder');
 
-	for(var name in Game.creeps) {
-		var creep = Game.creeps[name];
+	for(let name in Game.creeps) {
+		let creep = Game.creeps[name];
+
+    // TODO: create grab max capacity mixin
 
 		if(creep.memory.role == 'harvester') {
 			harvester(creep);
 		}
 
     if (creep.memory.role === 'upgrader') {
-      upgrader(creep);
+      upgrader(roomGame, creep);
     }
 
 		if(creep.memory.role == 'builder') {
-      builder(creep, spammer.isFinished);
+      builder(roomGame, creep);
 		}
 
 		if(creep.memory.role == 'guard') {

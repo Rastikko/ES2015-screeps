@@ -1,5 +1,5 @@
-function builder(creep, energyAvailable) {
-    if (creep.carry.energy === 0 && energyAvailable) {
+function builder(roomGame, creep) {
+    if (creep.carry.energy === 0 && roomGame.getSpawnMemory('spammerFinished')) {
     	if (Game.spawns.Spawn1.transferEnergy(creep) == ERR_NOT_IN_RANGE) {
     		creep.moveTo(Game.spawns.Spawn1);
     	}
@@ -15,7 +15,7 @@ function builder(creep, energyAvailable) {
       if (!targets.length) {
         let wall = creep.pos.findClosestByPath(FIND_MY_STRUCTURES, {
             filter: function(object) {
-                return object.hits < 5000;
+                return object.hits < object.hitsMax;
             }
         });
         if(wall) {
