@@ -6,6 +6,17 @@ Creep.prototype.setAction = function(action) {
   this.hasActed = true;
 }
 
+Creep.prototype.harvestEnergy = function(flag) {
+  if (this.hasActed) return;
+  if (this.carry.energy < this.carryCapacity) {
+		let sources = this.room.find(FIND_SOURCES);
+		if (this.harvest(sources[0]) === ERR_NOT_IN_RANGE) {
+			this.moveTo(sources[0]);
+		}
+    this.setAction('harvest');
+	}
+}
+
 Creep.prototype.depositEnergy = function() {
   if (this.hasActed) return;
   let extensions = this.room.find(FIND_MY_STRUCTURES, {
@@ -35,4 +46,34 @@ Creep.prototype.depositEnergy = function() {
     this.moveTo(target);
   }
   this.setAction('deposit');
+}
+
+Creep.prototype.withdrawEnergy = function() {
+  if (this.hasActed) return;
+
+  let thisEmpty = this.carry.energy === 0;
+  let spawnFinished = Game.spawns.Spawn1.memory['isFinished'];
+  let transferEnergy = this.memory.transferEnergy;
+
+  if ((thisEmpty || transferEnergy) && spawnFinished) {
+    // If we pass a flag we should then mine the closest to the flag
+
+    if (Game.spawns.Spawn1.transferEnergy(this) === ERR_NOT_IN_RANGE) {
+      this.moveTo(Game.spawns.Spawn1);
+    }
+    if (this.carry.energy !== this.carryCapacity) {
+      this.memory.transferEnergy = true;
+    } else {
+      this.memory.transferEnergy = false;
+    }
+    this.setAction('withdraw');
+  }
+}
+
+Creep.prototype.upgrade = function() {
+  if (this.hasActed) return;
+  if (this.upgradeController(this.room.controller) === ERR_NOT_IN_RANGE) {
+    this.moveTo(this.room.controller);
+  }
+  this.setAction('u:upgrade');
 }

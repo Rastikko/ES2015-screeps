@@ -5,14 +5,25 @@ const developmentState = {
   guard: [2, [ATTACK, ATTACK, TOUGH, MOVE, MOVE]]
 };
 
-class Spammer {
-  constructor(roomGame, state) {
-    this.roomGame = roomGame;
+function countCreeps(role) {
+  let n = 0;
+  Object.keys(Game.creeps).forEach((creepKey) => {
+    if (Game.creeps[creepKey].memory.role === role) {
+      n++;
+    }
+  });
+  return n;
+}
+
+class CreepFactory {
+  constructor(state) {
+    this.spawn = Game.spawns.Spawn1;
+    this.spawn.memory['isFinished'] = undefined;
 
     this._calculateState(state);
 
-    if (this.roomGame.getSpawnMemory('spammerFinished') === undefined) {
-      this.roomGame.setSpawnMemory('spammerFinished', true);
+    if (this.spawn.memory['isFinished'] === undefined) {
+      this.spawn.memory['isFinished'] = true;
     }
   }
 
@@ -21,18 +32,18 @@ class Spammer {
     Object.keys(developmentState).forEach((key) => {
       // if we already defined that we are not finished it means that we
       // attempted to create a creep before
-      if (this.roomGame.getSpawnMemory('spammerFinished') === false) {
+      if (this.spawn.memory['isFinished'] === false) {
         return;
       }
-      let nKeyCreeps = this.roomGame.countCreeps(key);
+      let nKeyCreeps = countCreeps(key);
       if (nKeyCreeps < developmentState[key][0]) {
-        this.roomGame.createCreep(developmentState[key][1], {
+        this.spawn.addCreep(developmentState[key][1], {
           role: key
         });
-        this.roomGame.setSpawnMemory('spammerFinished', false);
+        this.spawn.memory['isFinished'] = false;
       }
     });
   }
 }
 
-export default Spammer;
+export default CreepFactory;

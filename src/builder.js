@@ -1,6 +1,6 @@
-function builder(roomGame, creep) {
+function builder(creep) {
   let creepEmpty = creep.carry.energy === 0;
-	let spawnFinished = roomGame.getSpawnMemory('spammerFinished');
+	let spawnFinished = Game.spawns.Spawn1.memory['isFinished'];
 	let transferEnergy = creep.memory.transferEnergy;
 
 	if ((creepEmpty || transferEnergy) && spawnFinished) {
