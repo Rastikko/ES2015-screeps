@@ -1,7 +1,7 @@
 const developmentState = {
   harvester: [4, [WORK, WORK, MOVE, CARRY]],
   builder: [3, [WORK, MOVE, MOVE, CARRY, CARRY]],
-  upgrader: [6, [WORK, MOVE, MOVE, MOVE, CARRY]],
+  upgrader: [5, [WORK, MOVE, MOVE, MOVE, CARRY]],
   guard: [2, [ATTACK, ATTACK, TOUGH, MOVE, MOVE]]
 };
 
@@ -13,10 +13,6 @@ class Spammer {
 
     if (this.roomGame.getSpawnMemory('spammerFinished') === undefined) {
       this.roomGame.setSpawnMemory('spammerFinished', true);
-      // If we have extra energy to spare then create some more guards
-      // if (isEnergyOver(280) && this.roomGame.countCreeps('guard') < 8) {
-      //   createGuard();
-      // }
     }
   }
 
