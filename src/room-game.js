@@ -66,14 +66,13 @@ class RoomGame
       }
       this.setSpawnMemory(attributes.toString(), total);
     }
-
-    if (Game.spawns[this.spawn].energyCapacity < total) {
+    if (Game.spawns[this.spawn].room.energyCapacityAvailable < total) {
       console.log('Your spawn does not have enough energy to build the parts');
       console.log('Total: ' + total);
       console.log(attributes);
     }
 
-    return Game.spawns[this.spawn].energy >= total;
+    return Game.spawns[this.spawn].room.energyCapacity >= total;
   }
 }
 
