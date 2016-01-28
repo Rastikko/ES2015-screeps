@@ -1,4 +1,4 @@
-import '_structure';
+import '_creep';
 import RoomGame from 'room-game';
 import Spammer from 'spammer';
 import harvester from 'harvester';

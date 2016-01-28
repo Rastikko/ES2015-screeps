@@ -1,3 +1,11 @@
+Creep.prototype.setAction = function(action) {
+  if (this.memory.action !== action) {
+    this.memory.action = action || 'error';
+    this.say(action);
+  }
+  this.hasActed = true;
+}
+
 Creep.prototype.depositEnergy = function() {
   if (this.hasActed) return;
   let extensions = this.room.find(FIND_MY_STRUCTURES, {

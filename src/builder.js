@@ -21,8 +21,8 @@ function builder(roomGame, creep) {
     	}
 
       if (!targets.length) {
-        let structuresNeedsRepair = Game.rooms.sim.find(FIND_MY_STRUCTURES, {
-            filter: (structure)  => { return structure.needsRepair() }
+        let structuresNeedsRepair = creep.room.find(FIND_MY_STRUCTURES, {
+            filter: (structure) => { return structure.hits < structure.hitsMax / 2 }
         });
 
         if(structuresNeedsRepair) {
