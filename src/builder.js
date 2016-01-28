@@ -58,7 +58,7 @@ function builder(roomGame, creep) {
     }
 
     //If no repairs are needed, we're just going to go find some structures to build
-    var targets = creep.pos.findNearest(Game.CONSTRUCTION_SITES);
+    var targets = creep.pos.findClosest(Game.CONSTRUCTION_SITES);
     if(targets) {
 
       if(!creep.pos.isNearTo(targets))
