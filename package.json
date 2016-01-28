@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "A simple screeps framework using ES2015",
   "scripts": {
-    "build": "babel src -d lib"
+    "build": "babel src -d lib && grunt screeps"
   },
   "devDependencies": {
     "babel-cli": "^6.4.5",

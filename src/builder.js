@@ -21,14 +21,13 @@ function builder(roomGame, creep) {
     	}
 
       if (!targets.length) {
-        let halfBroken = creep.pos.findClosestByPath(FIND_MY_STRUCTURES, {
-            filter: function(object) {
-                return (object.hits / object.hitsMax) < 0.5;
-            }
+        let structuresNeedsRepair = Game.rooms.sim.find(FIND_MY_STRUCTURES, {
+            filter: (structure)  => { return structure.needsRepair() }
         });
-        if(halfBroken) {
-            if(creep.repair(halfBroken) === ERR_NOT_IN_RANGE) {
-                creep.moveTo(halfBroken);
+
+        if(structuresNeedsRepair) {
+            if(creep.repair(structuresNeedsRepair) === ERR_NOT_IN_RANGE) {
+                creep.moveTo(structuresNeedsRepair);
             }
         }
       }

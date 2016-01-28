@@ -1,3 +1,4 @@
+import '_structure';
 import RoomGame from 'room-game';
 import Spammer from 'spammer';
 import harvester from 'harvester';
