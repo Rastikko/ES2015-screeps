@@ -4,6 +4,7 @@ let withdrawEnergy = function(flag) {
 
   let thisEmpty = this.carry.energy === 0;
   let spawnFinished = Game.spawns.Spawn1.memory['isFinished'];
+  let spawnWithEnergy = Game.spawns.Spawn1.energy !== 0;
   let transferEnergy = this.memory.transferEnergy;
 
   if ((thisEmpty || transferEnergy) && flag) {
@@ -14,7 +15,8 @@ let withdrawEnergy = function(flag) {
       let sameFlag = (creeps[key].memory.flag) && (creeps[key].memory.flag.name === flag.name);
       let harvesterRole = creeps[key].memory.role === 'harvester';
       let isNotReserved = !creeps[key].isReserved;
-      if (sameFlag && harvesterRole && isNotReserved) {
+      let isEmpty = !creeps[key].carry.energy === 0;
+      if (sameFlag && harvesterRole && isNotReserved && !isEmpty) {
         thechoosenone = creeps[key];
         return false;
       }
@@ -24,9 +26,12 @@ let withdrawEnergy = function(flag) {
     if (thechoosenone !== undefined) {
       if (thechoosenone.transfer(this, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
         this.moveTo(thechoosenone);
+        this.setAction('m->steal');
+      } else {
+        thechoosenone.isReserved = true;
+        this.setAction('steal');
       }
-      thechoosenone.isReserved = true;
-      this.setAction('steal');
+
       if (this.carry.energy !== this.carryCapacity) {
         this.memory.transferEnergy = true;
       } else {
@@ -35,7 +40,7 @@ let withdrawEnergy = function(flag) {
     }
   }
 
-  if ((thisEmpty || transferEnergy) && spawnFinished && !flag) {
+  if ((thisEmpty || transferEnergy) && spawnFinished && !flag && spawnWithEnergy) {
     // If we pass a flag we should then mine the closest to the flag
     if (Game.spawns.Spawn1.transferEnergy(this) === ERR_NOT_IN_RANGE) {
       this.moveTo(Game.spawns.Spawn1);
@@ -48,7 +53,7 @@ let withdrawEnergy = function(flag) {
     }
   }
 
-  if(!spawnFinished && !this.hasActed) {
+  if(!spawnFinished && !this.hasActed && !flag) {
     this.moveTo(Game.flags.Away);
   }
 }
