@@ -1,10 +1,6 @@
 import '_creep';
 import '_spawn';
 import CreepFactory from 'creep-factory';
-import harvester from 'harvester';
-import builder from 'builder';
-import guard from 'guard';
-import upgrader from 'upgrader';
 
 module.exports.loop = function () {
 
@@ -15,8 +11,15 @@ module.exports.loop = function () {
 
 		if(creep.memory.role == 'harvester') {
       creep.harvestEnergy(creep.memory.flag);
-			creep.depositEnergy();
+      if (!Game.spawns.Spawn1.depositerAvailable) {
+        creep.depositEnergy();
+      }
 		}
+
+    if(creep.memory.role == 'depositer') {
+      creep.withdrawEnergy(creep.memory.flag);
+      creep.depositEnergy();
+    }
 
     if (creep.memory.role === 'upgrader') {
       creep.withdrawEnergy();

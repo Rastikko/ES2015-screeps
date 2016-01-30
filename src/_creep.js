@@ -1,4 +1,5 @@
 import harvestEnergy from '_creep_harvest-energy';
+import withdrawEnergy from '_creep_withdraw-energy';
 
 Creep.prototype.setAction = function(action) {
   if (this.memory.action !== action) {
@@ -41,27 +42,7 @@ Creep.prototype.depositEnergy = function() {
   this.setAction('deposit');
 }
 
-Creep.prototype.withdrawEnergy = function() {
-  if (this.hasActed) return;
-
-  let thisEmpty = this.carry.energy === 0;
-  let spawnFinished = Game.spawns.Spawn1.memory['isFinished'];
-  let transferEnergy = this.memory.transferEnergy;
-
-  if ((thisEmpty || transferEnergy) && spawnFinished) {
-    // If we pass a flag we should then mine the closest to the flag
-
-    if (Game.spawns.Spawn1.transferEnergy(this) === ERR_NOT_IN_RANGE) {
-      this.moveTo(Game.spawns.Spawn1);
-    }
-    if (this.carry.energy !== this.carryCapacity) {
-      this.memory.transferEnergy = true;
-    } else {
-      this.memory.transferEnergy = false;
-    }
-    this.setAction('withdraw');
-  }
-}
+Creep.prototype.withdrawEnergy = withdrawEnergy;
 
 Creep.prototype.upgrade = function() {
   if (this.hasActed) return;

@@ -4,8 +4,7 @@ let harvestEnergy = function(flag) {
   if (this.carry.energy < this.carryCapacity) {
     let sources;
     if (flag) {
-      sources = this.room.LookForAt('source', flag);
-      console.log("Harvesting " + flag);
+      sources = this.room.lookForAt('source', flag.pos.x, flag.pos.y);
     }
     if (!sources) {
       sources = this.room.find(FIND_SOURCES);
