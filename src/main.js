@@ -24,11 +24,12 @@ module.exports.loop = function () {
     }
 
 		if(creep.memory.role == 'builder') {
-      builder(creep);
+      creep.buildConstruction();
+      creep.repairConstruction();
 		}
 
 		if(creep.memory.role == 'guard') {
-    	guard(creep);
+      creep.guard();
     }
 	}
 

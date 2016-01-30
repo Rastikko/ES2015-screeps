@@ -75,5 +75,48 @@ Creep.prototype.upgrade = function() {
   if (this.upgradeController(this.room.controller) === ERR_NOT_IN_RANGE) {
     this.moveTo(this.room.controller);
   }
-  this.setAction('u:upgrade');
+  this.setAction('upgrade');
+}
+
+Creep.prototype.buildConstruction = function() {
+  if (this.hasActed) return;
+  let targets = this.room.find(FIND_CONSTRUCTION_SITES);
+  if (targets.length) {
+    if (this.build(targets[0]) === ERR_NOT_IN_RANGE) {
+      this.moveTo(targets[0]);
+    }
+    this.setAction('build');
+  }
+}
+
+Creep.prototype.repairConstruction = function() {
+  if (this.hasActed) return;
+  let structuresNeedsRepair = this.room.find(FIND_STRUCTURES, {
+      filter: (structure) => {
+        let isHalfDamaged = structure.hits < structure.hitsMax / 2;
+        let isNotALotOfWork = structure.hits < 50000;
+        return isHalfDamaged && isNotALotOfWork;
+      }
+  });
+
+  if(structuresNeedsRepair.length) {
+    if(this.repair(structuresNeedsRepair) === ERR_NOT_IN_RANGE) {
+        this.moveTo(structuresNeedsRepair);
+    }
+    this.setAction('repair');
+  }
+}
+
+Creep.prototype.guard = function() {
+  if (this.hasActed) return;
+  let targets = this.room.find(FIND_HOSTILE_CREEPS);
+
+  if(targets.length) {
+    if(this.attack(targets[0]) == ERR_NOT_IN_RANGE) {
+      this.moveTo(targets[0]);
+    }
+  } else {
+    this.moveTo(Game.flags.Guard);
+  }
+  this.setAction('guarding');
 }
