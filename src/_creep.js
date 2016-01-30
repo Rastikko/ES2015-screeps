@@ -1,3 +1,5 @@
+import harvestEnergy from '_creep_harvest-energy';
+
 Creep.prototype.setAction = function(action) {
   if (this.memory.action !== action) {
     this.memory.action = action || 'error';
@@ -6,16 +8,7 @@ Creep.prototype.setAction = function(action) {
   this.hasActed = true;
 }
 
-Creep.prototype.harvestEnergy = function(flag) {
-  if (this.hasActed) return;
-  if (this.carry.energy < this.carryCapacity) {
-		let sources = this.room.find(FIND_SOURCES);
-		if (this.harvest(sources[0]) === ERR_NOT_IN_RANGE) {
-			this.moveTo(sources[0]);
-		}
-    this.setAction('harvest');
-	}
-}
+Creep.prototype.harvestEnergy = harvestEnergy;
 
 Creep.prototype.depositEnergy = function() {
   if (this.hasActed) return;

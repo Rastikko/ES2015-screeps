@@ -1,8 +1,9 @@
 const developmentState = {
-  harvester: [4, [WORK, WORK, MOVE, CARRY]],
-  builder: [3, [WORK, MOVE, MOVE, CARRY, CARRY]],
-  upgrader: [5, [WORK, MOVE, MOVE, MOVE, CARRY]],
-  guard: [2, [ATTACK, ATTACK, TOUGH, MOVE, MOVE]]
+  harvester: [4, [WORK, WORK, MOVE, CARRY], { role: 'harvester', flag: Game.flags.Miner}],
+  harvester: [4, [WORK, WORK, MOVE, CARRY], { role: 'harvester', flag: Game.flags.Upgrader}],
+  builder: [3, [WORK, MOVE, MOVE, CARRY, CARRY], { role: 'builder' }],
+  upgrader: [5, [WORK, MOVE, MOVE, MOVE, CARRY], { role: 'upgrader' }],
+  guard: [2, [ATTACK, ATTACK, TOUGH, MOVE, MOVE], { role: 'guard' }]
 };
 
 function countCreeps(role) {
@@ -37,9 +38,7 @@ class CreepFactory {
       }
       let nKeyCreeps = countCreeps(key);
       if (nKeyCreeps < developmentState[key][0]) {
-        this.spawn.addCreep(developmentState[key][1], {
-          role: key
-        });
+        this.spawn.addCreep(developmentState[key][1], developmentState[key][2]);
         this.spawn.memory['isFinished'] = false;
       }
     });

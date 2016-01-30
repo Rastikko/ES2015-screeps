@@ -14,7 +14,7 @@ module.exports.loop = function () {
 		let creep = Game.creeps[name];
 
 		if(creep.memory.role == 'harvester') {
-      creep.harvestEnergy();
+      creep.harvestEnergy(creep.memory.flag);
 			creep.depositEnergy();
 		}
 
