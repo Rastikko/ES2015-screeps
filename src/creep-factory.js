@@ -1,22 +1,28 @@
-// const developmentState = {
-//   harvesterSpawn: [4, [WORK, WORK, MOVE, CARRY], { role: 'harvester', flag: Game.flags.Miner}],
-//   haversterUpgrader: [1, [WORK, WORK, MOVE, CARRY], { role: 'harvester', flag: Game.flags.Upgrader}],
-//   builder: [3, [WORK, MOVE, MOVE, CARRY, CARRY], { role: 'builder' }],
-//   upgrader: [5, [WORK, MOVE, MOVE, MOVE, CARRY], { role: 'upgrader' }],
-//   // guard: [2, [ATTACK, ATTACK, TOUGH, MOVE, MOVE], { role: 'guard' }]
-// };
-
 const developmentState = {
-  harvesterSpawn: [1, [WORK, WORK, MOVE, CARRY], { role: 'harvester', flag: Game.flags.Miner}],
-  depositer: [1, [MOVE, MOVE, MOVE, CARRY, CARRY], { role: 'depositer', flag: Game.flags.Miner}],
+  harvesterminer: [3, [WORK, WORK, MOVE, CARRY], { role: 'harvester', flag: Game.flags.Miner}],
+  depositer: [4, [MOVE, MOVE, MOVE, MOVE, CARRY, CARRY], { role: 'depositer', flag: Game.flags.Miner}],
+  harvesterUpgrader: [2, [WORK, WORK, MOVE, CARRY], { role: 'harvester', flag: Game.flags.Upgrader}],
+  upgraderFlag: [4, [WORK, MOVE, MOVE, MOVE, CARRY], { role: 'upgrader', flag: Game.flags.Upgrader}],
+  // upgrader: [4, [WORK, MOVE, MOVE, MOVE, CARRY], { role: 'upgrader'}],
+  builder: [4, [WORK, MOVE, MOVE, CARRY, CARRY], { role: 'builder' }]
+  // guard: [2, [ATTACK, ATTACK, TOUGH, MOVE, MOVE], { role: 'guard' }]
 };
 
+// const developmentState = {
+//   harvesterSpawn: [1, [WORK, WORK, MOVE, CARRY], { role: 'harvester', flag: Game.flags.Miner}],
+//   depositer: [1, [MOVE, MOVE, MOVE, CARRY, CARRY], { role: 'depositer', flag: Game.flags.Miner}],
+// };
 
-function countCreeps(role) {
+
+function countCreeps(role, flag) {
   let n = 0;
   Object.keys(Game.creeps).forEach((creepKey) => {
     if (Game.creeps[creepKey].memory.role === role) {
-      n++;
+      if (flag && Game.creeps[creepKey].memory.flag && flag.name === Game.creeps[creepKey].memory.flag.name) {
+        n++;
+      } else if (!flag) {
+        n++;
+      }
     }
   });
   return n;
@@ -50,7 +56,7 @@ class CreepFactory {
       if (this.spawn.memory['isFinished'] === false) {
         return;
       }
-      let nKeyCreeps = countCreeps(developmentState[key][2].role);
+      let nKeyCreeps = countCreeps(developmentState[key][2].role, developmentState[key][2].flag);
       if (nKeyCreeps < developmentState[key][0]) {
         this.spawn.addCreep(developmentState[key][1], developmentState[key][2]);
         this.spawn.memory['isFinished'] = false;

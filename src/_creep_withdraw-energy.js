@@ -1,5 +1,5 @@
 let withdrawEnergy = function(flag) {
-  console.log("AAAAAAAAAAAAAAAAAAAAAAA");
+
   if (this.hasActed) return;
 
   let thisEmpty = this.carry.energy === 0;
@@ -8,72 +8,49 @@ let withdrawEnergy = function(flag) {
 
   if ((thisEmpty || transferEnergy) && flag) {
     let creeps = Game.creeps;
-    let creepStack = [];
-    Object.keys(creeps, key => {
-      if (creeps[key].memory.flag === flag) {
-        console.log('same flag creep: ');
-        console.log(creeps[key]);
-        creepStack.push(creeps[key]);
-      }
-    });
-    console.log(creepStack);
+    let thechoosenone;
 
-    for (let creep in creepStack) {
-      let creepReserved = creep.isReserved;
-      let creepIsHarvester = creep.memory.role === 'harvester'
-      if (!creepReserved && creepIsHarvester) {
-        if (this.transfer(creep, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-          this.moveTo(creep);
-        }
+    Object.keys(creeps).every(key => {
+      let sameFlag = (creeps[key].memory.flag) && (creeps[key].memory.flag.name === flag.name);
+      let harvesterRole = creeps[key].memory.role === 'harvester';
+      let isNotReserved = !creeps[key].isReserved;
+      if (sameFlag && harvesterRole && isNotReserved) {
+        thechoosenone = creeps[key];
+        return false;
+      }
+      return true;
+    });
+
+    if (thechoosenone !== undefined) {
+      if (thechoosenone.transfer(this, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
+        this.moveTo(thechoosenone);
+      }
+      thechoosenone.isReserved = true;
+      this.setAction('steal');
+      if (this.carry.energy !== this.carryCapacity) {
+        this.memory.transferEnergy = true;
+      } else {
+        this.memory.transferEnergy = false;
       }
     }
-
-    // let creepStack = [];
-    // grab harvesters with the flag
-    // Object.keys(areaCreeps).forEach(keyY => {
-    //   Object.keys(keyY).forEach(keyX => {
-    //       console.log("CHECKING ", keyY, keyX);
-    //       console.log(keyY);
-    //       console.log(keyX);
-    //       console.log(areaCreeps[keyY][keyX]);
-    //       if (areaCreeps[keyY][keyX] !== undefined) {
-    //         creepStack.push(areaCreeps[keyY][keyX]);
-    //       }
-    //   });
-    // });
-
-    // if (creepStack.length > 0) {
-    //   console.log("CREEEPS");
-    //   console.log(creepStack);
-    //   console.log(creepStack)
-    //   for (let creep in creepStack) {
-    //     console.log(creep);
-    //     let creepReserved = creep.isReserved;
-    //     let creepIsHarvester = creep.memory.role === 'harvester'
-    //     if (!creepReserved && creepIsHarvester) {
-    //       if (this.transfer(creep, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-    //         this.moveTo(creep);
-    //       }
-    //     }
-    //   }
-    // }
-    this.setAction('steal');
   }
 
-  if ((thisEmpty || transferEnergy) && spawnFinished && !this.hasActed) {
+  if ((thisEmpty || transferEnergy) && spawnFinished && !flag) {
     // If we pass a flag we should then mine the closest to the flag
     if (Game.spawns.Spawn1.transferEnergy(this) === ERR_NOT_IN_RANGE) {
       this.moveTo(Game.spawns.Spawn1);
     }
     this.setAction('withdraw');
+    if (this.carry.energy !== this.carryCapacity) {
+      this.memory.transferEnergy = true;
+    } else {
+      this.memory.transferEnergy = false;
+    }
   }
 
-  if (this.carry.energy !== this.carryCapacity) {
-    this.memory.transferEnergy = true;
-  } else {
-    this.memory.transferEnergy = false;
+  if(!spawnFinished && !this.hasActed) {
+    this.moveTo(Game.flags.Away);
   }
-
 }
 
 export default withdrawEnergy;
