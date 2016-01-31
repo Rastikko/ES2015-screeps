@@ -43,9 +43,9 @@ Spawn.prototype._haveEnoughEnergy = function(attributes) {
   return this.room.energyAvailable >= total;
 }
 
-Spawn.prototype.addCreep = function(attributes, properties) {
+Spawn.prototype.addCreep = function(attributes, memory) {
   if (this._haveEnoughEnergy(attributes)) {
-    return this.createCreep(attributes, null, properties);
+    return this.createCreep(attributes, null, memory);
   }
   return false;
 }

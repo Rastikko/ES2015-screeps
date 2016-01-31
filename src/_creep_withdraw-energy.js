@@ -3,16 +3,17 @@ let withdrawEnergy = function(flag) {
   if (this.hasActed) return;
 
   let thisEmpty = this.carry.energy === 0;
-  let spawnFinished = Game.spawns.Spawn1.memory['isFinished'];
+  let spawnFinished = Game.spawns.Spawn1.isFinished;
   let spawnWithEnergy = Game.spawns.Spawn1.energy !== 0;
   let transferEnergy = this.memory.transferEnergy;
+  let flagName = this.memory.flagName;
 
-  if ((thisEmpty || transferEnergy) && flag) {
+  if ((thisEmpty || transferEnergy) && flagName) {
     let creeps = Game.creeps;
     let thechoosenone;
 
     Object.keys(creeps).every(key => {
-      let sameFlag = (creeps[key].memory.flag) && (creeps[key].memory.flag.name === flag.name);
+      let sameFlag = creeps[key].memory.flagName === flag.name;
       let harvesterRole = creeps[key].memory.role === 'harvester';
       let isNotReserved = !creeps[key].isReserved;
       let isEmpty = !creeps[key].carry.energy === 0;
@@ -40,7 +41,7 @@ let withdrawEnergy = function(flag) {
     }
   }
 
-  if ((thisEmpty || transferEnergy) && spawnFinished && !flag && spawnWithEnergy) {
+  if ((thisEmpty || transferEnergy) && spawnFinished && !flagName && spawnWithEnergy) {
     // If we pass a flag we should then mine the closest to the flag
     if (Game.spawns.Spawn1.transferEnergy(this) === ERR_NOT_IN_RANGE) {
       this.moveTo(Game.spawns.Spawn1);
@@ -53,7 +54,7 @@ let withdrawEnergy = function(flag) {
     }
   }
 
-  if(!spawnFinished && !this.hasActed && !flag) {
+  if(!spawnFinished && !this.hasActed && !flagName) {
     this.moveTo(Game.flags.Away);
   }
 }

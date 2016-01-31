@@ -1,8 +1,8 @@
-let setObjective = function() {
+let setObjective = function(action, target) {
   // Revamp of set action
 }
 
-let towardsObjective = function(objective) {
+let towardsObjective = function() {
   // Check if move
   // Check if objective defined
   // return true or false

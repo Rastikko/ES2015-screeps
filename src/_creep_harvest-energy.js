@@ -1,8 +1,10 @@
-let harvestEnergy = function(flag) {
+let harvestEnergy = function() {
   if (this.hasActed) return;
 
   if (this.carry.energy < this.carryCapacity) {
     let sources;
+    let flag = Game.flags[this.memory.flagName];
+    
     if (flag) {
       sources = this.room.lookForAt('source', flag.pos.x, flag.pos.y);
     }

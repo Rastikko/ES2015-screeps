@@ -10,19 +10,19 @@ module.exports.loop = function () {
 		let creep = Game.creeps[name];
 
 		if(creep.memory.role == 'harvester') {
-      creep.harvestEnergy(creep.memory.flag);
+      creep.harvestEnergy();
+      // optimization for the firsts spawns
       if (!Game.spawns.Spawn1.depositerAvailable) {
         creep.depositEnergy();
       }
 		}
 
     if(creep.memory.role == 'depositer') {
-      creep.withdrawEnergy(creep.memory.flag);
-      creep.depositEnergy(creep.memory.flag);
+      creep.withdrawEnergy();
+      creep.depositEnergy();
     }
 
     if (creep.memory.role === 'upgrader') {
-      // creep.withdrawEnergy(creep.memory.flag);
       creep.upgrade();
     }
 
