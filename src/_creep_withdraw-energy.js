@@ -13,7 +13,7 @@ let withdrawEnergy = function(flag) {
     let thechoosenone;
 
     Object.keys(creeps).every(key => {
-      let sameFlag = creeps[key].memory.flagName === flag.name;
+      let sameFlag = creeps[key].memory.flagName === flagName;
       let harvesterRole = creeps[key].memory.role === 'harvester';
       let isNotReserved = !creeps[key].isReserved;
       let isEmpty = !creeps[key].carry.energy === 0;
