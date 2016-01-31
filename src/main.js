@@ -4,7 +4,7 @@ import CreepFactory from 'creep-factory';
 
 module.exports.loop = function () {
 
-  let spammer = new CreepFactory('placeholder_state');
+  let spammer = new CreepFactory();
 
 	for(let name in Game.creeps) {
 		let creep = Game.creeps[name];
