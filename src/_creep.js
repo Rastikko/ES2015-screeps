@@ -1,5 +1,6 @@
 import harvestEnergy from '_creep_harvest-energy';
 import withdrawEnergy from '_creep_withdraw-energy';
+import depositEnergy from '_creep_deposit-energy';
 
 Creep.prototype.setAction = function(action) {
   if (this.memory.action !== action) {
@@ -11,36 +12,7 @@ Creep.prototype.setAction = function(action) {
 
 Creep.prototype.harvestEnergy = harvestEnergy;
 
-Creep.prototype.depositEnergy = function() {
-  if (this.hasActed) return;
-  let extensions = this.room.find(FIND_MY_STRUCTURES, {
-    filter: {
-      structureType: STRUCTURE_EXTENSION
-    }
-  });
-  let target = Game.spawns.Spawn1;
-  if (this.memory.tag === 'secondary') {
-    let tower = this.room.find(FIND_MY_STRUCTURES, {
-      filter: {
-        structureType: STRUCTURE_TOWER
-      }
-    });
-    if (tower[0].energy < tower[0].energyCapacity) {
-      target = tower[0];
-    }
-  }
-  if (extensions.length) {
-    for (let i = 0; i < extensions.length; i++) {
-      if (extensions[i].energy < extensions[i].energyCapacity) {
-        target = extensions[i];
-      }
-    }
-  }
-  if (this.transfer(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-    this.moveTo(target);
-  }
-  this.setAction('deposit');
-}
+Creep.prototype.depositEnergy = depositEnergy;
 
 Creep.prototype.withdrawEnergy = withdrawEnergy;
 
@@ -74,8 +46,8 @@ Creep.prototype.repairConstruction = function() {
   });
 
   if(structuresNeedsRepair.length) {
-    if(this.repair(structuresNeedsRepair) === ERR_NOT_IN_RANGE) {
-        this.moveTo(structuresNeedsRepair);
+    if(this.repair(structuresNeedsRepair[0]) === ERR_NOT_IN_RANGE) {
+        this.moveTo(structuresNeedsRepair[0]);
     }
     this.setAction('repair');
   }

@@ -18,11 +18,11 @@ module.exports.loop = function () {
 
     if(creep.memory.role == 'depositer') {
       creep.withdrawEnergy(creep.memory.flag);
-      creep.depositEnergy();
+      creep.depositEnergy(creep.memory.flag);
     }
 
     if (creep.memory.role === 'upgrader') {
-      creep.withdrawEnergy(creep.memory.flag);
+      // creep.withdrawEnergy(creep.memory.flag);
       creep.upgrade();
     }
 
