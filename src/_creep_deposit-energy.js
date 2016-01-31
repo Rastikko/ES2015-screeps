@@ -2,9 +2,11 @@ let depositEnergy = function() {
   if (this.hasActed) return;
   let target;
   let flagName = this.memory.flagName;
+  // for now just transfer to upgraders
+  let transferer = this.memory.transferer;
 
   // An upgrader flag means that we want to deposit on upgraders
-  if (flagName === 'Upgrader') {
+  if (transferer) {
     let creeps = Game.creeps;
 
     Object.keys(creeps).every(key => {
@@ -33,7 +35,7 @@ let depositEnergy = function() {
   }
 
   // TODO: find a efficient way so Upgraders can default to just depositers
-  if (target === undefined && flagName !== 'Upgrader') {
+  if (target === undefined) {
     target = Game.spawns.Spawn1;
   }
 

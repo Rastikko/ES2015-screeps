@@ -18,6 +18,7 @@ Creep.prototype.withdrawEnergy = withdrawEnergy;
 
 Creep.prototype.upgrade = function() {
   if (this.hasActed) return;
+  // If not enought resources just move
   if (this.upgradeController(this.room.controller) === ERR_NOT_IN_RANGE) {
     this.moveTo(this.room.controller);
   }

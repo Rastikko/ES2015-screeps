@@ -12,11 +12,12 @@ let withdrawEnergy = function(flag) {
     let creeps = Game.creeps;
     let thechoosenone;
 
+    // TODO: instead of choosing the first available
     Object.keys(creeps).every(key => {
       let sameFlag = creeps[key].memory.flagName === flagName;
       let harvesterRole = creeps[key].memory.role === 'harvester';
       let isNotReserved = !creeps[key].isReserved;
-      let isEmpty = !creeps[key].carry.energy === 0;
+      let isEmpty = creeps[key].carry.energy < 20;
       if (sameFlag && harvesterRole && isNotReserved && !isEmpty) {
         thechoosenone = creeps[key];
         return false;
