@@ -36,6 +36,7 @@ module.exports.loop = function () {
     if(creep.memory.role == 'repairer') {
       creep.withdrawEnergy();
       creep.repairConstruction();
+      creep.buildConstruction();
 		}
 
 		if(creep.memory.role == 'guard') {
@@ -44,4 +45,5 @@ module.exports.loop = function () {
 	}
 
   // TODO: if nobody have reserved the energy then spam guards
+
 }

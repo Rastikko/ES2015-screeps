@@ -6,14 +6,14 @@
 // const moverParts = [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY];
 // const builderParts = [WORK, WORK, WORK, MOVE, MOVE, MOVE, CARRY, CARRY, CARRY, CARRY];
 
-const workerParts = [WORK, CARRY, MOVE];
+const workerParts = [WORK, WORK, CARRY, MOVE];
 const moverParts = [CARRY, MOVE];
 const builderParts = [WORK, CARRY, MOVE, CARRY, MOVE];
 
 let state = [
   {
     // harvester for the miner
-    count: 3,
+    count: 2,
     parts: workerParts,
     memory: {
       role: 'harvester',
@@ -23,7 +23,7 @@ let state = [
   },
   {
     // depositers for the main miner
-    count: 3,
+    count: 2,
     parts: moverParts,
     memory: {
       role: 'depositer',
@@ -43,7 +43,7 @@ let state = [
   },
   {
     // transporters for the upgraders
-    count: 2,
+    count: 1,
     parts: moverParts,
     memory: {
       role: 'depositer',
@@ -52,8 +52,8 @@ let state = [
     }
   },
   {
-    // transporters for the spawn in miner 2
-    count: 2,
+    // transporters for the upgraders
+    count: 1,
     parts: moverParts,
     memory: {
       role: 'depositer',
@@ -83,7 +83,7 @@ let state = [
   },
   {
     // repairer
-    count: 2,
+    count: 1,
     parts: builderParts,
     memory: {
       role: 'repairer',

@@ -11,9 +11,10 @@ Room.prototype.getExtension = function(fullEnergyCapacity) {
         if (extensions[i].energy === extensions[i].energyCapacity) {
           return extensions[i];
         }
-      }
-      if (extensions[i].energy < extensions[i].energyCapacity) {
-        return extensions[i];
+      } else {
+        if (extensions[i].energy < extensions[i].energyCapacity) {
+          return extensions[i];
+        }
       }
     }
   }

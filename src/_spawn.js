@@ -49,7 +49,7 @@ Spawn.prototype.addCreep = function(attributes, memory) {
   let creepCount = Object.keys(Game.creeps).length;
   // We will expend more and more energy if we have tons of creeps
   let capacityAvailable = this.room.energyCapacityAvailable * (creepCount / this.totalCreeps);
-  capacityAvailable = Math.floor(capacityAvailable);
+  capacityAvailable = Math.floor(capacityAvailable * 0.7);
   capacityAvailable = Math.max(capacityAvailable, 300);
   // If we have plenty creeps then lest use all our energy available
   console.log("CrepCount: " + creepCount);

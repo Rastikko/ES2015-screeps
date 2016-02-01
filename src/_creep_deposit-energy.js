@@ -23,30 +23,15 @@ let depositEnergy = function() {
     if (extension) {
       target = extension;
     }
-  }
 
-  // TODO: find a efficient way so Upgraders can default to just depositers
-  if (target === undefined) {
-    target = Game.spawns.Spawn1;
+    if (target === undefined) {
+      target = Game.spawns.Spawn1;
+    }
   }
 
   if (this.transfer(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
     this.moveTo(target);
   }
-
-  // TODO: delete legacy code
-  // if (this.memory.tag === 'secondary') {
-  //   let tower = this.room.find(FIND_MY_STRUCTURES, {
-  //     filter: {
-  //       structureType: STRUCTURE_TOWER
-  //     }
-  //   });
-  //   if (tower[0].energy < tower[0].energyCapacity) {
-  //     target = tower[0];
-  //   }
-  // }
-
-  // TODO: if the spawn and the creep are full get out of the way
 
   this.setAction('deposit');
 }
