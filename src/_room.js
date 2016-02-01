@@ -20,3 +20,12 @@ Room.prototype.getExtension = function(fullEnergyCapacity) {
   }
   return false;
 }
+
+Room.prototype.getStorage = function() {
+  let storages = this.find(FIND_MY_STRUCTURES, {
+    filter: {
+      structureType: STRUCTURE_STORAGE
+    }
+  });
+  return storages[0];
+}

@@ -22,7 +22,7 @@ function countCreeps(memory) {
 class CreepFactory {
   constructor() {
     this.spawn = Game.spawns.Spawn1;
-    this.spawn.totalCreeps = 13;
+    this.spawn.totalCreeps = 14;
 
     if (!this.spawn) {
       return;

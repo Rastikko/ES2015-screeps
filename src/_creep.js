@@ -41,7 +41,7 @@ Creep.prototype.repairConstruction = function() {
   let structuresNeedsRepair = this.room.find(FIND_STRUCTURES, {
       filter: (structure) => {
         let isHalfDamaged = structure.hits < structure.hitsMax / 2;
-        let isNotALotOfWork = structure.hits < 50000;
+        let isNotALotOfWork = structure.hits < 50000000;
         return isHalfDamaged && isNotALotOfWork;
       }
   });

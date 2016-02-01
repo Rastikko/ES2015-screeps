@@ -93,5 +93,4 @@ let state = [
   }
 ];
 
-// export totalCount = 18;
 export default state;

@@ -26,6 +26,9 @@ let depositEnergy = function() {
 
     if (target === undefined) {
       target = Game.spawns.Spawn1;
+      if (target.energy === target.energyCapacity) {
+        target = this.room.getStorage();
+      }
     }
   }
 
