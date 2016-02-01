@@ -1,51 +1,62 @@
-Spawn.prototype._haveEnoughEnergy = function(attributes) {
-  let total = 0;
-
-  // Let's save some CPU by saving the cost of the attributes
-  let savedAttributeCost = this.memory[attributes.toString()];
-  if (savedAttributeCost !== undefined) {
-    total = savedAttributeCost;
-  } else {
-    for(let i = 0; i < attributes.length; i++) {
-      switch (attributes[i]) {
-        case 'move':
-          total += 50;
-          break;
-        case 'work':
-          total += 100;
-          break;
-        case 'carry':
-          total += 50;
-          break;
-        case 'attack':
-          total += 80;
-          break;
-        case 'ranged_attack':
-          total += 150;
-          break;
-        case 'heal':
-          total += 250;
-          break;
-        case 'tough':
-          total += 10;
-          break;
-      }
-    }
-    this.memory[attributes.toString()] = total;
+Spawn.prototype._getPartCost = function(part) {
+  switch (part) {
+    case MOVE:
+      return 50;
+      break;
+    case WORK:
+      return 100;
+      break;
+    case CARRY:
+      return 50;
+      break;
+    case ATTACK:
+      return 80;
+      break;
+    case RANGED_ATTACK:
+      return 150;
+      break;
+    case HEAL:
+      return 250;
+      break;
+    case TOUGH:
+      return 10;
+      break;
   }
-  // Game.rooms.W18S23.energyCapacityAvailable
-  if (this.room.energyCapacityAvailable < total) {
-    console.log('Your spawn does not have enough energy to build the parts');
-    console.log('Total: ' + total);
-    console.log(attributes);
+  throw Error('No part specified');
+}
+
+Spawn.prototype._calculateParts = function(parts, maxCost) {
+  console.log(parts.toString() + maxCost.toString());
+  let calculatedParts = this.memory[parts.toString() + maxCost.toString()];
+  if (calculatedParts) {
+    console.log("Returning from memory calculateParts " + calculatedParts);
+    return calculatedParts;
   }
 
-  return this.room.energyAvailable >= total;
+  let i = 0;
+  let totalCost = 0;
+  let finalParts = [];
+  while (totalCost < maxCost) {
+    finalParts.push(parts[i % parts.length]);
+    i++;
+    totalCost += this._getPartCost(parts[i % parts.length]);
+  }
+  this.memory[parts.toString() + maxCost] = finalParts;
+  return finalParts;
 }
 
 Spawn.prototype.addCreep = function(attributes, memory) {
-  if (this._haveEnoughEnergy(attributes)) {
-    return this.createCreep(attributes, null, memory);
+  let creepCount = Object.keys(Game.creeps).length;
+  let capacityAvailable = 300;
+  // If we have plenty creeps then lest use all our energy available
+  console.log("CrepCount: " +creepCount);
+  console.log("totalCreeps / 0.8: " + this.totalCreeps / 0.8);
+  if (creepCount > (this.totalCreeps / 0.8)) {
+    capacityAvailable = this.room.energyCapacityAvailable;
   }
-  return false;
+
+  let parts = this._calculateParts(attributes, capacityAvailable);
+  console.log("PARTS!");
+  console.log(parts);
+  return this.createCreep(parts, null, memory);
 }

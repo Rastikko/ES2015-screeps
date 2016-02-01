@@ -2,10 +2,13 @@
 // const moverParts = [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, CARRY, CARRY, CARRY, CARRY];
 // const builderParts = [WORK, WORK, WORK, MOVE, MOVE, MOVE, CARRY, CARRY];
 
-const workerParts = [WORK, WORK, WORK, WORK, MOVE, MOVE, MOVE, CARRY, CARRY];
-const moverParts = [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY];
-const builderParts = [WORK, WORK, WORK, MOVE, MOVE, MOVE, CARRY, CARRY, CARRY, CARRY];
+// const workerParts = [WORK, WORK, WORK, WORK, MOVE, MOVE, MOVE, CARRY, CARRY];
+// const moverParts = [MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY];
+// const builderParts = [WORK, WORK, WORK, MOVE, MOVE, MOVE, CARRY, CARRY, CARRY, CARRY];
 
+const workerParts = [WORK, CARRY, MOVE];
+const moverParts = [CARRY, MOVE];
+const builderParts = [WORK, MOVE, CARRY];
 
 let state = [
   {
@@ -20,7 +23,7 @@ let state = [
   },
   {
     // depositers for the main miner
-    count: 4,
+    count: 3,
     parts: moverParts,
     memory: {
       role: 'depositer',
@@ -70,11 +73,11 @@ let state = [
   },
   {
     // builders and repair
-    count: 4,
+    count: 2,
     parts: builderParts,
     memory: {
       role: 'builder',
-      flagName: undefined,
+      flagName: false,
       transferer: false
     }
   }
