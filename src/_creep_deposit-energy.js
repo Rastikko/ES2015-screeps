@@ -19,18 +19,9 @@ let depositEnergy = function() {
       return true;
     });
   } else {
-    let extensions = this.room.find(FIND_MY_STRUCTURES, {
-      filter: {
-        structureType: STRUCTURE_EXTENSION
-      }
-    });
-
-    if (extensions.length) {
-      for (let i = 0; i < extensions.length; i++) {
-        if (extensions[i].energy < extensions[i].energyCapacity) {
-          target = extensions[i];
-        }
-      }
+    let extension = this.room.getExtension();
+    if (extension) {
+      target = extension;
     }
   }
 

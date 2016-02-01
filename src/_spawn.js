@@ -47,16 +47,15 @@ Spawn.prototype._calculateParts = function(parts, maxCost) {
 
 Spawn.prototype.addCreep = function(attributes, memory) {
   let creepCount = Object.keys(Game.creeps).length;
-  let capacityAvailable = 300;
+  // We will expend more and more energy if we have tons of creeps
+  let capacityAvailable = this.room.energyCapacityAvailable * (creepCount / this.totalCreeps);
+  capacityAvailable = Math.floor(capacityAvailable);
+  capacityAvailable = Math.max(capacityAvailable, 300);
   // If we have plenty creeps then lest use all our energy available
-  console.log("CrepCount: " +creepCount);
-  console.log("totalCreeps / 0.8: " + this.totalCreeps / 0.8);
-  if (creepCount > (this.totalCreeps / 0.8)) {
-    capacityAvailable = this.room.energyCapacityAvailable;
-  }
+  console.log("CrepCount: " + creepCount);
+  console.log("totalCreep: " + this.totalCreeps);
+  console.log('energyCapacityAvailable ' + this.room.energyCapacityAvailable);
 
   let parts = this._calculateParts(attributes, capacityAvailable);
-  console.log("PARTS!");
-  console.log(parts);
   return this.createCreep(parts, null, memory);
 }

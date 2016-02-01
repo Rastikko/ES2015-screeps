@@ -4,7 +4,6 @@ let withdrawEnergy = function(flag) {
 
   let thisEmpty = this.carry.energy === 0;
   let spawnFinished = Game.spawns.Spawn1.isFinished;
-  let spawnWithEnergy = Game.spawns.Spawn1.energy !== 0;
   let transferEnergy = this.memory.transferEnergy;
   let flagName = this.memory.flagName;
 
@@ -42,10 +41,15 @@ let withdrawEnergy = function(flag) {
     }
   }
 
-  if ((thisEmpty || transferEnergy) && spawnFinished && !flagName && spawnWithEnergy) {
+  if ((thisEmpty || transferEnergy) && spawnFinished && !flagName) {
+
+    let target = this.room.getExtension(true);
+    if (!target) {
+      target = Game.spawns.Spawn1;
+    }
     // If we pass a flag we should then mine the closest to the flag
-    if (Game.spawns.Spawn1.transferEnergy(this) === ERR_NOT_IN_RANGE) {
-      this.moveTo(Game.spawns.Spawn1);
+    if (target.transferEnergy(this) === ERR_NOT_IN_RANGE) {
+      this.moveTo(target);
     }
     this.setAction('withdraw');
     if (this.carry.energy !== this.carryCapacity) {

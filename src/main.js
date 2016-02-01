@@ -1,5 +1,6 @@
 import '_creep';
 import '_spawn';
+import '_room';
 import CreepFactory from 'creep-factory';
 
 module.exports.loop = function () {
@@ -29,6 +30,11 @@ module.exports.loop = function () {
 		if(creep.memory.role == 'builder') {
       creep.withdrawEnergy();
       creep.buildConstruction();
+      creep.repairConstruction();
+		}
+
+    if(creep.memory.role == 'repairer') {
+      creep.withdrawEnergy();
       creep.repairConstruction();
 		}
 

@@ -8,7 +8,7 @@
 
 const workerParts = [WORK, CARRY, MOVE];
 const moverParts = [CARRY, MOVE];
-const builderParts = [WORK, MOVE, CARRY];
+const builderParts = [WORK, CARRY, MOVE, CARRY, MOVE];
 
 let state = [
   {
@@ -72,11 +72,21 @@ let state = [
     }
   },
   {
-    // builders and repair
+    // builders
     count: 2,
     parts: builderParts,
     memory: {
       role: 'builder',
+      flagName: false,
+      transferer: false
+    }
+  },
+  {
+    // repairer
+    count: 2,
+    parts: builderParts,
+    memory: {
+      role: 'repairer',
       flagName: false,
       transferer: false
     }
