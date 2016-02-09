@@ -1,6 +1,7 @@
 import harvestEnergy from '_creep_harvest-energy';
 import withdrawEnergy from '_creep_withdraw-energy';
 import depositEnergy from '_creep_deposit-energy';
+import depositFlag from '_creep_deposit-flag';
 
 Creep.prototype.setAction = function(action) {
   if (this.memory.action !== action) {
@@ -13,6 +14,8 @@ Creep.prototype.setAction = function(action) {
 Creep.prototype.harvestEnergy = harvestEnergy;
 
 Creep.prototype.depositEnergy = depositEnergy;
+
+Creep.prototype.depositFlag = depositFlag;
 
 Creep.prototype.withdrawEnergy = withdrawEnergy;
 

@@ -43,22 +43,12 @@ let state = [
   },
   {
     // transporters for the upgraders
-    count: 1,
+    count: 2,
     parts: moverParts,
     memory: {
       role: 'depositer',
       flagName: 'Upgrader',
       transferer: true
-    }
-  },
-  {
-    // transporters for the upgraders
-    count: 1,
-    parts: moverParts,
-    memory: {
-      role: 'depositer',
-      flagName: 'Upgrader',
-      transferer: false
     }
   },
   {
@@ -73,20 +63,10 @@ let state = [
   },
   {
     // builders
-    count: 2,
-    parts: builderParts,
-    memory: {
-      role: 'builder',
-      flagName: false,
-      transferer: false
-    }
-  },
-  {
-    // repairer
     count: 1,
     parts: builderParts,
     memory: {
-      role: 'repairer',
+      role: 'builder',
       flagName: false,
       transferer: false
     }

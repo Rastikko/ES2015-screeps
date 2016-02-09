@@ -20,6 +20,9 @@ module.exports.loop = function () {
 
     if(creep.memory.role == 'depositer') {
       creep.withdrawEnergy();
+      if (creep.memory.transferer) {
+        creep.depositFlag();
+      }
       creep.depositEnergy();
     }
 
